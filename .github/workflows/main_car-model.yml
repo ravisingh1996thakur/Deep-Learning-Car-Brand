@@ -19,9 +19,11 @@ jobs:
 
       - name: Install Rust and Cargo
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          export PATH="$HOME/.cargo/bin:$PATH"
-          
+          sudo apt-get update
+          sudo apt-get install -y curl
+          curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
+          source $HOME/.cargo/env
+
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
@@ -35,7 +37,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-         
+          python -m pip install --user --force-reinstall gunicorn==19.9.0
+          python -m pip install --user --force-reinstall mysqlclient==1.4.6
+
+          # Optional: Add command to compile Rust extensions here
+          cd rust_extension
+          cargo build --release
+          cd ..
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
