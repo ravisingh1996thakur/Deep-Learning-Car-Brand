@@ -17,15 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install Rust and Cargo
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          export PATH="$HOME/.cargo/bin:$PATH"
+          
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
-
-      - name: Install Rust and Cargo
-        run: |
-          sudo apt-get update
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
 
       - name: Create and start virtual environment
         run: |
@@ -35,8 +35,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install uwsgi
-      
+          python setup.py install
+        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Upload artifact for deployment jobs
