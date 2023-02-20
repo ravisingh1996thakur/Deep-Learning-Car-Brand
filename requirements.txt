@@ -83,7 +83,7 @@ scipy
 seaborn
 Send2Trash
 six
-sklearn
+scikit-learn
 tensorboard
 tensorboard-plugin-wit
 tensorflow
