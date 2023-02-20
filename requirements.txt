@@ -102,6 +102,5 @@ widgetsnbextension
 wincertstore
 wrapt
 zipp
-some-rust-package
 
 
