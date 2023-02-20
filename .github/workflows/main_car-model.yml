@@ -17,13 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Rust and Cargo
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
-          curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
-          source $HOME/.cargo/env
-
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
@@ -35,15 +28,7 @@ jobs:
           source venv/bin/activate
       
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          python -m pip install --user --force-reinstall gunicorn==19.9.0
-          python -m pip install --user --force-reinstall mysqlclient==1.4.6
-
-          # Optional: Add command to compile Rust extensions here
-          cd rust_extension
-          cargo build --release
-          cd ..
+        run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
