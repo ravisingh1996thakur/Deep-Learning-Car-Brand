@@ -1,4 +1,4 @@
-name: Build and deploy Python app to Azure Web App - car model detection
+name: Build and deploy Python app to Azure Web App - car-model
 
 on:
   push:
@@ -53,6 +53,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'car model detection'
+          app-name: 'car-model'
           slot-name: 'Production'
           publish-profile: ${{ secrets.PASSWORD3 }}
