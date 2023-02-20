@@ -102,5 +102,7 @@ widgetsnbextension
 wincertstore
 wrapt
 zipp
+cryptography
+cffi
 
 
