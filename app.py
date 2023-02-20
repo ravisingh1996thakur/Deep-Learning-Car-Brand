@@ -32,9 +32,6 @@ MODEL_PATH ='model_resnet50.h5'
 # Load your trained model
 model = load_model(MODEL_PATH)
 
-
-
-
 def model_predict(img_path, model):
     img = image.load_img(img_path, target_size=(224, 224))
 
@@ -44,9 +41,6 @@ def model_predict(img_path, model):
     ## Scaling
     x=x/255
     x = np.expand_dims(x, axis=0)
-   
-
-   
 
     preds = model.predict(x)
     preds=np.argmax(preds, axis=1)
@@ -56,16 +50,13 @@ def model_predict(img_path, model):
         preds="The Car is Lamborghini"
     else:
         preds="The Car Is Mercedes"
-    
-    
-    return preds
 
+    return preds
 
 @app.route('/', methods=['GET'])
 def index():
     # Main page
     return render_template('index.html')
-
 
 @app.route('/predict', methods=['GET', 'POST'])
 def upload():
@@ -75,16 +66,16 @@ def upload():
 
         # Save the file to ./uploads
         basepath = os.path.dirname(__file__)
-        file_path = os.path.join(
-            basepath, 'uploads', secure_filename(f.filename))
+        file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
         f.save(file_path)
 
         # Make prediction
         preds = model_predict(file_path, model)
         result=preds
         return result
-    return None
+    
+    return "OK"
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
