@@ -86,7 +86,7 @@ six
 scikit-learn
 tensorboard
 tensorboard-plugin-wit
-tensorflow
+tensorflow==2.7.0
 tensorflow-estimator
 termcolor
 terminado
@@ -104,5 +104,7 @@ wrapt
 zipp
 cryptography
 cffi
+pyopenssl
+
 
 
