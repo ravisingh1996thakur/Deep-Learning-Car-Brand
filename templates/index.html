@@ -3,17 +3,11 @@
 <h2>Image Classifier</h2>
 
 <div>
-    <form id="upload-file" method="post" enctype="multipart/form-data">
-        <label for="imageUpload" class="upload-label">
-            Choose...
-        </label>
-        <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg">
-    </form>
+    <video id="camera-stream" width="640" height="480" autoplay></video>
 
     <div class="image-section" style="display:none;">
         <div class="img-preview">
-            <div id="imagePreview">
-            </div>
+            <canvas id="imagePreview" width="224" height="224"></canvas>
         </div>
         <div>
             <button type="button" class="btn btn-primary btn-lg " id="btn-predict">Predict!</button>
@@ -27,5 +21,34 @@
     </h3>
 
 </div>
+
+<script type="text/javascript">
+    var video = document.querySelector("#camera-stream");
+    var canvas = document.querySelector("#imagePreview");
+    var ctx = canvas.getContext("2d");
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+        });
+
+    document.querySelector("#btn-predict").addEventListener("click", function(event) {
+        event.preventDefault();
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(function(blob) {
+            var formData = new FormData();
+            formData.append("file", blob);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/predict");
+            xhr.onload = function() {
+                document.querySelector("#result span").innerHTML = xhr.responseText;
+            };
+            xhr.send(formData);
+        }, "image/jpeg", 1.0);
+    });
+</script>
 
 {% endblock %}
